@@ -44,8 +44,28 @@ app.config(function($stateProvider, $urlRouterProvider){
     }
   });
 
-   $urlRouterProvider.otherwise("/tab/home");
+   $urlRouterProvider.otherwise("/login");
 
+})
+
+
+.controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state) {
+  $scope.data = {};
+
+  $scope.login = function() {
+        LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
+            $state.go('tab.dash');
+        }).error(function(data) {
+            var alertPopup = $ionicPopup.alert({
+                title: 'Login failed.',
+                template: 'Please try again.'
+            });
+        });
+    }
+    // Simulate a login delay (15 s). Replace with your login code
+    $timeout(function() {
+      $scope.closeLogin();
+    }, 15000);  
 })
 
 //uncomment below once you create a form view
@@ -73,10 +93,10 @@ app.config(function($stateProvider, $urlRouterProvider){
 //     $scope.modal.show();
 //   };
 
-//     // Simulate a login delay (15 s). Replace with your login code
-//     $timeout(function() {
-//       $scope.closeLogin();
-//     }, 15000);  
+    // // Simulate a login delay (15 s). Replace with your login code
+    // $timeout(function() {
+    //   $scope.closeLogin();
+    // }, 15000);  
 // })
 
 
