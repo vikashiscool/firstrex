@@ -48,34 +48,36 @@ app.config(function($stateProvider, $urlRouterProvider){
 
 })
 
-app.controller('LoginCtrl', function($scope, $ionicModal, $timeout){
+//uncomment below once you create a form view
 
-  // Form data for the login modal
-  $scope.loginData = {};
+// app.controller('LoginCtrl', function($scope, $ionicModal, $timeout){
 
-    // Create the login modal
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
+//   // Form data for the login modal
+//   $scope.loginData = {};
+
+//     // Create the login modal
+//   $ionicModal.fromTemplateUrl('templates/login.html', {
+//     scope: $scope
+//   }).then(function(modal) {
+//     $scope.modal = modal;
+//   });
 
 
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  };
+//   // Triggered in the login modal to close it
+//   $scope.closeLogin = function() {
+//     $scope.modal.hide();
+//   };
 
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };
+//   // Open the login modal
+//   $scope.login = function() {
+//     $scope.modal.show();
+//   };
 
-    // Simulate a login delay (15 s). Replace with your login code
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 15000);  
-})
+//     // Simulate a login delay (15 s). Replace with your login code
+//     $timeout(function() {
+//       $scope.closeLogin();
+//     }, 15000);  
+// })
 
 
 app.controller('RequestCtrl', function($scope){

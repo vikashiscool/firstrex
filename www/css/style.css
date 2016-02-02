@@ -1,1 +1,15 @@
 /* Empty. Add your own CSS if you like */
+
+h3 {
+  text-align: center;
+}
+
+.frlogo{
+  width:18%;
+}
+
+.signin{
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+}
+
