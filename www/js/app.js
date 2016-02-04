@@ -21,7 +21,7 @@ app.run(function($ionicPlatform) {
   });
 })
 
-app.config(function($stateProvider, $urlRouterProvider){
+app.config(function ($stateProvider, $urlRouterProvider){
   // Ionic uses AngularUI Router, which uses the concept of states.
   // More info can be found here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
@@ -29,44 +29,91 @@ app.config(function($stateProvider, $urlRouterProvider){
   $stateProvider
 
   // set up an abstract state for the tabs directive
-    .state('tabs', {
+    .state('tab', {
     url: '/tab',
     abstract: true,
-    templateUrl: 'templates/tabs.html'
+    templateUrl: 'tab.html'
   })
 
-    .state('tabs.request', {
-    url: "/request",
-    views: {
-      'request-tab': {
-        templateUrl: "templates/request.html"
-      }
-    }
-  });
+  //login route
+    .state('index', {
+    url: "/index",
+    templateUrl: "index.html",
+    controller: 'LoginCtrl'
+      })
 
-   $urlRouterProvider.otherwise("/login");
+  // prequalification form
+    .state('request', {
+      url: "/request",
+      templateUrl: "request.html",
+      controller: "RequestCtrl"
+    })
+
+   $urlRouterProvider.otherwise("/tab/login");
 
 })
 
+//HTTP requests with Ionic from: https://blog.nraboy.com/2014/08/make-http-requests-android-ios-ionicframework/
 
-.controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state) {
-  $scope.data = {};
-
-  $scope.login = function() {
-        LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
-            $state.go('tab.dash');
-        }).error(function(data) {
-            var alertPopup = $ionicPopup.alert({
-                title: 'Login failed.',
-                template: 'Please try again.'
-            });
+app.controller('LoginCtrl', function($scope, $http/*, LoginService, $ionicPopup, $state*/) {
+  // $scope.data = {};
+  $scope.getData = function() {
+    $http.get("http://portal1rexcom-stage.elasticbeanstalk.com/authorize/signin", { params: { "email": "admin@1rex.com", "password": "shareable" } })
+        .success(function(data) {
+          $scope.email = data.email;
+          $scope.password = data.password;
+        })
+        .error(function(data) {
+          alert("ERROR");
         });
-    }
-    // Simulate a login delay (15 s). Replace with your login code
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 15000);  
+  }
+
+
+  // $scope.login = function() {
+  //     LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
+  //         $state.go('request');
+  //     }).error(function(data) {
+  //         var alertPopup = $ionicPopup.alert({
+  //             title: 'Login failed.',
+  //             template: 'Please try again.'
+  //         });
+  //     });
+  // }
+
+
+// validate login --> log you into server
+
+ var loginInfo = {email:'admin@1rex.com', password:'shareable'}
+    $http({
+    url: "http://portal1rexcom-stage.elasticbeanstalk.com/authorize/signin",
+    method: "POST",
+    params: loginInfo
+    })
+ 
+   //store json and read out phone number
+
+  var json = 
+    $http({
+    var email = angular.fromJson(json)["email"],
+    var phone = angular.fromJson(json)["phone"],  
+    url: "http://portal1rexcom-stage.elasticbeanstalk.com/user/search/:email",
+    method: "GET",
+    params: {email: 'email', password: 'phone'}
+    })
+
+    // store these and check to see if the email in the form matches the information the data that's returned from the API. If match, then redirect to prequal page. Else error. 
+
+ 
+
 })
+
+
+
+    
+    // Simulate a login delay (15 s). Replace with your login code
+    // $timeout(function() {
+    //   $scope.closeLogin();
+    // }, 15000);  
 
 //uncomment below once you create a form view
 

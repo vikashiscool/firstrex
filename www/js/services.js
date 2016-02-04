@@ -1,4 +1,4 @@
-var app = angular.module('firstrex.services', []);
+var app = angular.module('firstrex', []);
 
 app.service('LoginService', function($q) {
   return {
