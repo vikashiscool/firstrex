@@ -1,10 +1,64 @@
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEcWK0Zhc7xaNJNnlv-0LtjkMtAx1LByc&libraries=places"></script>
+
+</head>
+
 
 <body ng-controller="RequestCtrl">
 <ion-view view-title="Request">
   <ion-content class="padding">
-    <h2>New Property Prequalification</h2>
+    <h2 class="title">New Property Prequalification</h2>
   
-  hihihiasdf
+
+    <ion-pane>
+      <ion-header-bar class="bar-stable">
+        <img class="frlogo" src="img/FR_logo.jpg">
+        <h1 class="title">Loan Officer Portal</h1>
+      </ion-header-bar>
+
+  <div ng-controller="RequestCtrl">
+    <ion-view view-title="Request" name="request-view">
+      <ion-content class="padding"> 
+
+        <div class="list">
+          <label class="item item-input">
+            <input id="pac-input" class="controls" type="text" placeholder="Address" ng-model="property.address" options="address ">
+          </label>
+          <label class="item item-input controls">
+            <input type="text" placeholder="Unit" ng-model="property.apartment">
+          </label>
+         
+         <label class="item item-input">
+          <ion-list>
+            <ion-radio ng-model="choice" ng-value="0" id="changetype-seller" checked="checked">Seller</ion-radio>
+            <ion-radio ng-model="choice" ng-value="1" id="changetype-buyer">Buyer</ion-radio>
+          </ion-list>
+           </label>
+          
+        </div>   
+      <button class="button button-block button-calm" ng-click="submit()">Submit</button>
+
+
+      
+
+    </ion-content>
+  </ion-view>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
   </ion-content>
 </ion-view>
 </body>

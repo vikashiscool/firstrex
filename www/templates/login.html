@@ -1,11 +1,8 @@
 
 <body ng-controller="LoginCtrl">
-<ion-view view-title="Login">
-  <ion-content class="padding">
-    <h2>FirstRex Loan Officer Portal</h2>
-  
 <ion-view view-title="Login" name="login-view">
   <ion-content class="padding">
+    <h2>FirstRex Loan Officer Portal</h2>
       <div class="list list-inset">
           <label class="item item-input">
               <input type="text" placeholder="Username" ng-model="data.username">
@@ -15,11 +12,7 @@
           </label>
       </div>
       <br>
-      <button class="button button-block button-calm" ng-click="login()">Login</button>
-  </ion-content>
-</ion-view>
-
-
+      <button class="button button-block button-calm" ng-click="login(data.password)">Login</button>
   </ion-content>
 </ion-view>
 </body>
