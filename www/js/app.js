@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-var app = angular.module('firstrex', ['ionic']);
+var app = angular.module('firstRex', ['ionic']);
 
 app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -29,30 +29,22 @@ app.config(function ($stateProvider, $urlRouterProvider){
   //stateProvider determines which templates are injected where ion-nav-view is located in parent template (index.html)
   // set up an abstract state for the tabs directive
     .state('tab', {
-    url: '/tab',
+    url: '/',
     abstract: true,
-    templateUrl: 'tab.html'
+    templateUrl: 'templates/tab.html'
   })
 
   //login route
-    .state('home', {
+    .state('login', {
     url: "/login",
-    views: {
-      login: {
-        templateUrl: "login.html"
-      }
-    },
+    templateUrl: "templates/login.html",
     controller: 'LoginCtrl'
-      })
+    })
 
   // prequalification form
     .state('request', {
       url: "/request",
-      views: {
-        login: {
-          templateUrl: "request.html"
-      }
-    },
+      templateUrl: "templates/request.html",
       controller: "RequestCtrl"
     })
 
@@ -60,9 +52,18 @@ app.config(function ($stateProvider, $urlRouterProvider){
 
 })
 
+
+app.config(['$httpProvider', function ($httpProvider) {
+        $httpProvider.defaults.useXDomain = true;
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    }
+]);
+
+
+
 //HTTP requests with Ionic from: https://blog.nraboy.com/2014/08/make-http-requests-android-ios-ionicframework/
 
-app.controller('LoginCtrl', function($scope, $http, /*, LoginService,*/ $ionicPopup, $state) {
+app.controller('LoginCtrl', ['$scope', '$http', '$ionicPopup', '$state', '$ionicViewService', function ($scope, $http, $ionicPopup, $state, $ionicViewService) {
   // $scope.data = {};
   $scope.getData = function() {
     $http.get("http://portal1rexcom-stage.elasticbeanstalk.com/authorize/signin", { params: { "email": "admin@1rex.com", "password": "shareable" } })
@@ -79,10 +80,12 @@ app.controller('LoginCtrl', function($scope, $http, /*, LoginService,*/ $ionicPo
         });
   }
 
-// validate login --> log you into server
 
- var loginInfo = {email:'admin@1rex.com', password:'shareable'}
-    $http.post({"http://portal1rexcom-stage.elasticbeanstalk.com/authorize/signin", loginInfo})
+// Validate login --> log you into server
+
+ var loginInfo = {"email":'admin@1rex.com', "password":'shareable'};
+
+    $http.post("http://portal1rexcom-stage.elasticbeanstalk.com/authorize/signin", loginInfo)
       .success(function(data){
         $state.go('request');
     })
@@ -95,19 +98,49 @@ app.controller('LoginCtrl', function($scope, $http, /*, LoginService,*/ $ionicPo
  
    //store json and read out phone number
 
-  var json = 
-    $http({
-    var email = angular.fromJson(json)["email"],
-    var phone = angular.fromJson(json)["phone"],  
-    url: "http://portal1rexcom-stage.elasticbeanstalk.com/user/search/:email",
-    method: "GET",
-    params: {email: 'email', password: 'phone'}
-    })
+  // var json = 
+    // $http({
+    // var email = angular.fromJson(json)["email"],
+    // var phone = angular.fromJson(json)["phone"],  
+    // url: "http://portal1rexcom-stage.elasticbeanstalk.com/user/search/:email",
+    // method: "GET",
+    // params: {email: 'email', password: 'phone'}
+    // })
+
+    
+}]);
+
+
+//Intercept state changes: 1. Check if user has correct role (authorization), and 2. Check if user is authenticated (if not, then prevent change event and go back to login)
+
+app.run( function ($rootScope, $state, AuthService, AUTH_EVENTS)
+    $rootScope.$on('$stateChangeStart', function (event,next, nextParams, fromState) {
+
+  // Authorization 
+    // if ('data' in next && 'authorizedRoles' in next.data) {
+    //   var authorizedRoles = next.data.authorizedRoles;
+    //   if (!AuthService.isAuthorized(authorizedRoles)) {
+    //     event.preventDefault();
+    //     $state.go($state.current, {}, {reload: true});
+    //     $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+    //   }
+    // }
+ 
+    if (!AuthService.isAuthenticated()) {
+      if (next.name !== 'login') {
+        event.preventDefault();
+        $state.go('login');
+      }
+    }
+  });
+
 
     
 })
 
-app.controller('RequestCtrl', function($scope, $location, $ionicViewService) {
+
+//Controller for prequalification form
+app.controller('RequestCtrl', function ($scope, $location, $ionicViewService) {
   if(window.localStorage.getItem("password") === "undefined" || window.localStorage.getItem("password") === null) {
       $ionicViewService.nextViewOptions({
         disableAnimate: true,
@@ -117,8 +150,13 @@ app.controller('RequestCtrl', function($scope, $location, $ionicViewService) {
   }
 });
 
+
+
+
+
+
 ////////////////////////////
-//Google Map Functinoality//
+//Google Maps Functionality//
 ///////////////////////////
 
 function initMap() {
