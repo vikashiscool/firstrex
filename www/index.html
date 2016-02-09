@@ -1,76 +1,87 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title></title>
-
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-    <link href="css/style.css" rel="stylesheet">
-    
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
-
-    <!-- ionic/angularjs js -->
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
-
-    <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
-
-    <!-- app's native js (now includes controllers and services, so no need for separate files) -->
-    <script src="js/app.js"></script>
- <!--    // <script src="js/controllers.js"></script> -->
-    <script src="js/services.js"></script>
-  </head>
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+  <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+  <link href="css/style.css" rel="stylesheet">
   
-  <body ng-app="firstRex" ng-controller="LoginCtrl">
-    <ion-nav-view></ion-nav-view>
+
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEcWK0Zhc7xaNJNnlv-0LtjkMtAx1LByc&libraries=places"></script>
+
+  <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+  <!-- cordova script (this will be a 404 during development) -->
+  <script src="cordova.js"></script>
+
+  <!-- app's native js (now includes controllers and services, so no need for separate files) -->
+  <script src="js/app.js"></script>
+<!--    // <script src="js/controllers.js"></script> -->
+  <script src="js/services.js"></script>
+</head>
+
+
+<body ng-controller="RequestCtrl">
+<ion-view view-title="Request" name="request-view">
+  <ion-content class="padding">  
     <ion-pane>
+
+      <!-- =-=-=- -->
+      <!-- Header -->
+      <!-- =-=-=- -->
       <ion-header-bar class="bar-stable">
         <img class="frlogo" src="img/FR_logo.jpg">
-        <h1 class="title">Loan Officer Portal</h1>
       </ion-header-bar>
 
-  <ion-view view-title="Login" name="login-view">
-    <ion-content class="padding">
-  <!-- <h3>Sign in for</h3>
-  <h3 class="signin">New Property Prequalification Form</h3>
-   -->    <div class="list list-inset">
-          <label class="item item-input">
-              <input type="text" placeholder="Email" ng-model="data.email">
+    <h1 class="title">New Property Prequalification</h2>
+       
+        <div class="list">
+
+          <label class="item item-input item-divider">
+            <span class="input-label">Address</span>
+            <input id="pac-input" class="controls" type="text" placeholder="e.g. 225 Bush St. San Francisco, CA 94108" ng-model="property.address" options="address ">
           </label>
-          <label class="item item-input">
-              <input type="password" placeholder="Password" ng-model="data.password">
+
+          <label class="item item-input item-divider">
+            <span class="input-label">Unit</span>
+            <input type="text" placeholder="e.g. 5" ng-model="property.apartment">
+          </label>
+         
+         <label class="item item-radio item-divider">
+              <ion-radio ng-model="choice" ng-value="0" id="changetype-seller" checked="checked">Seller</ion-radio>
+              <ion-radio ng-model="choice" ng-value="1" id="changetype-buyer">Buyer</ion-radio>
           </label>
           
-      </div>
-      <button class="button button-block button-calm" ng-click="login(data.password)">Login</button>
-    </ion-content>
-  </ion-view>
+        </div>   
+      <button class="button button-block button-calm" ng-click="submit()">Submit</button>
 
+       <div id="map"></div>
+      
+ </ion-content>
+
+
+
+<!-- =-=-=-=-=-=-=- -->
+<!-- Footer buttons -->
+<!-- =-=-=-=-=-=-=- -->
 
 <ion-tabs class="tabs-icon-top tabs-color-active-positive">
-
   <!-- Help Tab -->
   <ion-tab title="Help" icon-off="ion-ios-help" icon-on="ion-ios-help" href="tel:800-588-7600">
-    <!-- <ion-nav-view name="tab-dash"></ion-nav-view> -->
+    <!-- <ion-nav-view name="tab-help"></ion-nav-view> -->
   </ion-tab>
 
   <!-- LO Portal -->
-  <ion-tab title="LO Portal" icon-off="ion-ios-redo" icon-on="ion-ios-redo" href="http://portal.1rex.com">
-    <!-- <ion-nav-view name="tab-chats"></ion-nav-view> -->
+  <ion-tab title="LO Portal" icon-off="ion-ios-redo" icon-on="ion-ios-redo" href="#/tab/chats">
+    <!-- <ion-nav-view name="tab-LO"></ion-nav-view> -->
   </ion-tab>
 
   <!-- Rex Homebuyer Tab -->
   <ion-tab title="Homebuyer" icon-off="ion-ios-home" icon-on="ion-ios-home" href="http://rexhomebuyer.com/">
-    <!-- <ion-nav-view name="tab-account"></ion-nav-view> -->
+    <!-- <ion-nav-view name="tab-homebuyer"></ion-nav-view> -->
   </ion-tab>
 </ion-tabs>
 
-    </ion-pane>
-          <script type="text/ng-template" src="templates/tab.html"></script>
+</ion-view>
 
-  </body>
-</html>
+    <script type="text/ng-template" src="templates/tabs.html"></script>
+</body>

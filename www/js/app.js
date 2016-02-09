@@ -43,9 +43,9 @@ app.config(function ($stateProvider, $urlRouterProvider){
 
   // prequalification form
     .state('request', {
-      url: "/request",
-      templateUrl: "templates/request.html",
-      controller: "RequestCtrl"
+    url: "/request",
+    templateUrl: "templates/request.html",
+    controller: "RequestCtrl"
     })
 
    $urlRouterProvider.otherwise("templates/login");
@@ -99,13 +99,13 @@ app.controller('LoginCtrl', ['$scope', '$http', '$ionicPopup', '$state', '$ionic
    //store json and read out phone number
 
   // var json = 
-    // $http({
-    // var email = angular.fromJson(json)["email"],
-    // var phone = angular.fromJson(json)["phone"],  
-    // url: "http://portal1rexcom-stage.elasticbeanstalk.com/user/search/:email",
-    // method: "GET",
-    // params: {email: 'email', password: 'phone'}
-    // })
+  //   $http({
+  //   var email = angular.fromJson(json)["email"],
+  //   var phone = angular.fromJson(json)["phone"],  
+  //   url: "http://portal1rexcom-stage.elasticbeanstalk.com/user/search/:email",
+  //   method: "GET",
+  //   params: {email: 'email', password: 'phone'}
+  //   })
 
     
 }]);
@@ -113,8 +113,8 @@ app.controller('LoginCtrl', ['$scope', '$http', '$ionicPopup', '$state', '$ionic
 
 //Intercept state changes: 1. Check if user has correct role (authorization), and 2. Check if user is authenticated (if not, then prevent change event and go back to login)
 
-app.run( function ($rootScope, $state, AuthService, AUTH_EVENTS)
-    $rootScope.$on('$stateChangeStart', function (event,next, nextParams, fromState) {
+app.run( function ($rootScope, $state, AuthService, AUTH_EVENTS) {
+    $rootScope.$on('$stateChangeStart', function (event, next, nextParams, fromState) {
 
   // Authorization 
     // if ('data' in next && 'authorizedRoles' in next.data) {
@@ -126,21 +126,18 @@ app.run( function ($rootScope, $state, AuthService, AUTH_EVENTS)
     //   }
     // }
  
-    if (!AuthService.isAuthenticated()) {
+    if (!AuthService.isAuthenticated() && next.name !== 'login') {
       if (next.name !== 'login') {
         event.preventDefault();
         $state.go('login');
       }
     }
   });
-
-
-    
 })
 
 
 //Controller for prequalification form
-app.controller('RequestCtrl', function ($scope, $location, $ionicViewService) {
+app.controller('RequestCtrl', function ($scope, $location, $ionicViewService, userType) {
   if(window.localStorage.getItem("password") === "undefined" || window.localStorage.getItem("password") === null) {
       $ionicViewService.nextViewOptions({
         disableAnimate: true,
@@ -148,6 +145,15 @@ app.controller('RequestCtrl', function ($scope, $location, $ionicViewService) {
         });
       $location.path("/login");
   }
+
+    $scope.userType = [
+    { text: "Seller", value: "0" },
+    { text: "Buyer", value: "1" },
+  ];
+
+
+
+
 });
 
 
@@ -161,7 +167,7 @@ app.controller('RequestCtrl', function ($scope, $location, $ionicViewService) {
 
 function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: -33.8688, lng: 151.2195},
+    center: {lat: 37.773972, lng: -122.431297},
     zoom: 13
   });
   var input = /** @type {!HTMLInputElement} */(
@@ -255,13 +261,9 @@ function initMap() {
   // }
 
 
-
     // store these and check to see if the email in the form matches the information the data that's returned from the API. If match, then redirect to prequal page. Else error. 
 
  
-
-
-
 
 
     

@@ -80,7 +80,7 @@ app.service('LoginService', function ($q, $http) {
     logout: logout,
     // isAuthorized: isAuthorized;
     isAuthenticated: function(){return isAuthenticated;},
-    email: function(){return email};
+    email: function(){return email}
     // role: function() {return role};  
     }
 })    
@@ -94,7 +94,7 @@ app.factory('AuthInterceptor', function ($rootscope, $q, AUTH_EVENTS){
         // 403: AUTH_EVENTS.notAuthorized
       }[response.status], response);
       return $q.reject(response);
-    };
+    }
   };
 });
 
