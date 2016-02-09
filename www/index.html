@@ -47,8 +47,14 @@
           </label>
          
          <label class="item item-radio item-divider">
-              <ion-radio ng-model="choice" ng-value="0" id="changetype-seller" checked="checked">Seller</ion-radio>
-              <ion-radio ng-model="choice" ng-value="1" id="changetype-buyer">Buyer</ion-radio>
+          <ion-list>
+            <ion-radio ng-model="choice" ng-value="0" id="changetype-seller" checked="checked">Seller</ion-radio>
+            <ion-radio ng-model="choice" ng-value="1" id="changetype-buyer">Buyer</ion-radio>
+          </ion-list>
+
+<!--           <ion-radio ng-repeat="data in userType" ng-value="data.value" ng-model="property.userType">
+            {{ data.text }}
+          </ion-radio> -->
           </label>
           
         </div>   
@@ -83,5 +89,5 @@
 
 </ion-view>
 
-    <script type="text/ng-template" src="templates/tabs.html"></script>
+    <script type="text/ng-template" src="templates/tab.html"></script>
 </body>

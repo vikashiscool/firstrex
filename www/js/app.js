@@ -137,7 +137,7 @@ app.run( function ($rootScope, $state, AuthService, AUTH_EVENTS) {
 
 
 //Controller for prequalification form
-app.controller('RequestCtrl', function ($scope, $location, $ionicViewService, userType) {
+app.controller('RequestCtrl', function ($scope, $location, $ionicViewService) {
   if(window.localStorage.getItem("password") === "undefined" || window.localStorage.getItem("password") === null) {
       $ionicViewService.nextViewOptions({
         disableAnimate: true,
@@ -146,14 +146,19 @@ app.controller('RequestCtrl', function ($scope, $location, $ionicViewService, us
       $location.path("/login");
   }
 
-    $scope.userType = [
-    { text: "Seller", value: "0" },
-    { text: "Buyer", value: "1" },
+//Eventually use the $scope.userType array of objects to template HTML using {{data.text}} notation
+  $scope.userType = [
+    { text: "Seller", value: "0", selected: true },
+    { text: "Buyer", value: "1", selected: false }
   ];
 
+  $scope.data = {
+    userType: '0'
+  };
 
-
-
+  $scope.userTypeChanged = function(item) {
+            console.log("Selected userType, text:", item.text, "value:", item.value);
+  }
 });
 
 
